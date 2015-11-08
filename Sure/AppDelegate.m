@@ -65,7 +65,7 @@
     nav4.tabBarItem.title=@"更多...";
     nav4.tabBarItem.image=[UIImage imageNamed:@"set"];
   
-    tb.viewControllers=@[nav,nav1,nav2,nav3,nav4];
+    tb.viewControllers=@[nav,nav1,nav2,nav3,nav4];//zi kongzhiqi
    
     return YES;
 }
