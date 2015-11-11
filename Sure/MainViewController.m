@@ -40,10 +40,11 @@
     _markTextField.layer.borderWidth = 1;
     _markTextField.layer.borderColor = [UIColor grayColor].CGColor;
     _markTextField.layer.cornerRadius = 3;
-    NSString *fileNamePath = [NSString stringWithFormat:@"%@/fileName.txt",documentFolder];
-    NSURL *pathUrl = [NSURL URLWithString:fileNamePath];
-    NSString *strr = [NSString stringWithContentsOfURL:pathUrl encoding:NSUTF8StringEncoding error:nil];
-    fileNameNumber = [strr integerValue];
+    _markTextField.textColor = [UIColor grayColor];
+    _markTextField.delegate = self;
+    
+    _recordMoneyTextFiled.keyboardType = UIKeyboardTypeDecimalPad;     //键盘类型为数字
+
     
     fileNaneNumberString = [[NSString alloc] init];
     contentString = [[NSMutableString alloc] init];
@@ -51,12 +52,10 @@
     documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     documentFolder = [documentPaths objectAtIndex:0];
     
-    NSString *filePath = [NSString stringWithFormat:@"%@//%ld.txt",documentPaths,fileNameNumber];
-    NSString *str = @"hello";
-    [str writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSString *fileNamePath = [NSString stringWithFormat:@"%@/fileName.txt",documentFolder];
+    NSString *strr = [NSString stringWithContentsOfFile:fileNamePath encoding:NSUTF8StringEncoding error:nil];
+    fileNameNumber = [strr integerValue];
     
-    NSLog(@"fileNameNumber:%@",filePath);
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,6 +65,9 @@
 - (IBAction)pressSaveButton:(id)sender {
     [self saveFileNameNuberToFile];
     [self saveContenstringToFile];
+    _recordMoneyTextFiled.text = @"";
+    _markTextField.text = @"最多可输入16个字符";
+    _markTextField.textColor = [UIColor grayColor];
     
 }
 
@@ -100,6 +102,20 @@
     }
 }
 
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+
+    [_recordMoneyTextFiled resignFirstResponder];
+    [_markTextField resignFirstResponder];
+}
+
+#pragma UITextViewDelegate
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    
+    _markTextField.text = @"";
+    _markTextField.textColor = [UIColor blackColor];
+   
+}
 
 
 /*
